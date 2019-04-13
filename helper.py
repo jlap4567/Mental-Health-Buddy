@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from watson_developer_cloud import ToneAnalyzerV3
 
 emotions = []
-threshold = 0
+bad_mood = False
 
 def checkMood(tweets):
     """
@@ -12,7 +12,10 @@ def checkMood(tweets):
     to estimate what kind of mood they are in. If they are in a bad mood it
     will return True
     """
-    return True
+    for tweet in tweets:
+        analyzer(tweet)
+    return bad_mood
+
 
 emotions = []     
 
@@ -36,16 +39,22 @@ def analyzer(tweet):
     ).get_result()
     items = tone_analysis['document_tone']['tones']
     for item in items:
+        i = 0
+        # if(int(item['score'])>0.9):
+        #     i = i+1
         if(item['tone_name'] == "Anger"):
             emotion[0] = item['score']*(-1)
         if(item['tone_name'] == "Fear"):
             emotion[1] = item['score']*(-1)
         if(item['tone_name'] == "Sadness"):
             emotion[2] = item['score']*(-1)
-        if(item['tone_name'] == "Confident"):
+        if(item['tone_name'] == "Confidence"):
             emotion[3] = item['score']
         if(item['tone_name'] == "Joy"):
             emotion[4] = item['score']
+
+        bad  = False if i >= 10 else True
+        bad_mood = bad
 
     emotions.append(emotion)
 
@@ -60,7 +69,7 @@ def graph():
     confident = list(row[3] for row in emotions)
     joy = list(row[4] for row in emotions)
 
-    names = ['threshold', 'anger', 'fear', 'sadness', 'confident', 'joy']
+    names = ['threshold', 'anger', 'fear', 'sadness', 'confidence', 'joy']
 
     print(anger)
     print(fear)

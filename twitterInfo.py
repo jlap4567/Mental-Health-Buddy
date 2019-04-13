@@ -2,11 +2,13 @@ import sys
 import tweepy
 import json
 import threading 
+import helper
 
-consumer_key = "key"
-consumer_secret = "key"
-access_key = "Key"
-access_secret = "Key"
+consumer_key = "mDDob6487D0P7XPADdmYrVArU"
+consumer_secret = "twnvKzSYYtjx2j3aOfMRDH1qtHBq3ivDh6a2BBHpl35uP5eTgH"
+access_key = "1061740751288262658-kS7qHaYjigF3S1aOw1UNFHKbWu8cLK"
+access_secret = "bRS0Px8x5juWfBmLEn28rMrkZ951ZVyf3Iew8zB2iFanm"
+
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_key, access_secret)
@@ -23,9 +25,16 @@ def handleTweet(userName):
 
     #gets a list of the last 50 tweets posted by a user
     for tweet in api.user_timeline(screen_name = userName, count = 50, include_rts = False, tweet_mode = 'extended'):
-        tweets.append(tweet)
-    print(dir(tweets[0]))
-    
+        tweets.append(tweet.full_text)
+    print(tweets)
+
+    if(helper.checkMood(tweets)):
+        #helper.getGraph(tweets)
+        message = "@" + userName + " We've notice that you've been more negative than usual lately we reccommend "
+        api.update_with_media("foo.png", status=message)
+
+    #else:
+        #api.update_status(status = "You seem to be in a fine mood. Have a nice day")
 
 class CustomStreamListener(tweepy.StreamListener):
     def on_status(self, status):

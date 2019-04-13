@@ -34,6 +34,7 @@ for item in items:
 emotions.append(emotion)
 emotions.append([0.5, 0.3, 0.7])
 emotions.append([0.1,0.2,0.3])
+emotions.append([0.1,0.2,0.3])
 
 print(emotions)
 

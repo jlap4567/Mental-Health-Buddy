@@ -93,7 +93,7 @@ def graph():
 
     
 
-    plt.legend(names, loc=2)
+    plt.legend(names, loc=2, fancybox=True, framealpha=0.5)
     plt.ylim([-3, 2])
     plt.tick_params(
         axis='x',
@@ -108,10 +108,10 @@ def graph():
     plt.savefig('foo.png')
 
 #testing
-analyzer("I am scared of ghost")
-analyzer("I love here")
-graph()
-print(emotions)
+# analyzer("I am scared of ghost")
+# analyzer("I love here")
+# graph()
+# print(emotions)
 
 # print(json.dumps(tone_analysis, indent=2))
 

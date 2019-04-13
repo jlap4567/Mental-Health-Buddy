@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 from watson_developer_cloud import ToneAnalyzerV3
 
 emotions = []
+threshold = 0
+
 def checkMood(tweets):
     """
     This funciton compares a users more recent posts to their older posts

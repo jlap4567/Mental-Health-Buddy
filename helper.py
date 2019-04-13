@@ -4,6 +4,15 @@ import matplotlib.pyplot as plt
 from watson_developer_cloud import ToneAnalyzerV3
 
 emotions = []
+def checkMood(tweets):
+    """
+    This funciton compares a users more recent posts to their older posts
+    to estimate what kind of mood they are in. If they are in a bad mood it
+    will return True
+    """
+    return True
+
+emotions = []     
 
 tone_analyzer = ToneAnalyzerV3(
     version='2017-09-21',

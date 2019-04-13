@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from watson_developer_cloud import ToneAnalyzerV3
 
-emotions = [];
+emotions = []     
 
 tone_analyzer = ToneAnalyzerV3(
     version='2017-09-21',
@@ -11,7 +11,7 @@ tone_analyzer = ToneAnalyzerV3(
     url='https://gateway-wdc.watsonplatform.net/tone-analyzer/api'
 )
 
-emotion = [0.0,0.0,0.0];
+emotion = [0.0,0.0,0.0]
 
 text = 'Team, I know that times are tough! Product '\
     'sales have been stupidly disappointing for the past three '\
@@ -32,13 +32,15 @@ for item in items:
         emotion[2] = item['score']
 
 emotions.append(emotion)
-# emotions.append([0.5, 0.3, 0.7])
+emotions.append([0.5, 0.3, 0.7])
+emotions.append([0.1,0.2,0.3])
+
+print(emotions)
 
 anger = list(row[0] for row in emotions)
 fear =  list(row[1] for row in emotions)
 sadness = list(row[2] for row in emotions)
 
-colors = ['red', 'green', 'blue']
 names = ['anger', 'fear', 'sadness']
 
 print(anger)
@@ -47,16 +49,34 @@ print(sadness)
 
 plt.figure()
 
-mu, sigma = 200, 25
-x = mu + sigma*np.random.randn(50,3)
+# xanger= list(range(0,len(anger)))
+# xsad= list(range(0,len(sadness)))
+# xfear = list(range(0,len(fear)))
+# plt.bar(xanger,anger,color="red",align = "center")
+# plt.bar(xsad,sadness,color="blue",bottom = anger, align = "center")
+# plt.bar(xfear,fear,color="green",bottom = anger+sadness, align = "center")
 
-n, bins, patches = plt.hist([anger, fear, sadness], range(0, 51), stacked=True, density=False,
-         color = colors, label=names)
+X = np.arange(len(emotions))
 
-plt.legend()
-plt.xlabel('time in tweets')
+A = np.array(anger)
+B = np.array(fear)
+C = np.array(sadness)
+
+plt.bar(X, A, color = 'red', align='center')
+plt.bar(X, B, color = 'green', bottom = A, align='center')
+plt.bar(X, C, color = 'blue', bottom = A + B, align='center')
+
+plt.legend(names, loc=2)
+plt.tick_params(
+    axis='x',         
+    which='both',      
+    bottom=False,      
+    top=False,         
+    labelbottom=False)
+plt.xlabel('tweets')
 plt.ylabel('mood')
 plt.title('Mood rating over time')
+# plt.show()
 plt.savefig('foo.png')
 
 # print(json.dumps(tone_analysis, indent=2))

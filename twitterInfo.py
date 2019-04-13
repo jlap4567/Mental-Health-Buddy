@@ -5,10 +5,10 @@ import threading
 import helper
 import random
 
-consumer_key = "mDDob6487D0P7XPADdmYrVArU"
-consumer_secret = "twnvKzSYYtjx2j3aOfMRDH1qtHBq3ivDh6a2BBHpl35uP5eTgH"
-access_key = "1061740751288262658-kS7qHaYjigF3S1aOw1UNFHKbWu8cLK"
-access_secret = "bRS0Px8x5juWfBmLEn28rMrkZ951ZVyf3Iew8zB2iFanm"
+consumer_key = "Key"
+consumer_secret = "Key"
+access_key = "Key"
+access_secret = "Key"
 
 
 

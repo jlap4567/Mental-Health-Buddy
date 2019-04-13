@@ -3,6 +3,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from watson_developer_cloud import ToneAnalyzerV3
 
+emotions = []
+threshold = 0
+
 def checkMood(tweets):
     """
     This funciton compares a users more recent posts to their older posts
@@ -19,44 +22,53 @@ tone_analyzer = ToneAnalyzerV3(
     url='https://gateway-wdc.watsonplatform.net/tone-analyzer/api'
 )
 
-emotion = [0.0,0.0,0.0]
 
-text = 'Team, I know that times are tough! Product '\
-    'sales have been stupidly disappointing for the past three '\
-    'quarters. We have a competitive product, but we '\
-    'need to do a better job of selling it!'
 
-tone_analysis = tone_analyzer.tone(
-    {'text': text},
-    'application/json'
-).get_result()
-items = tone_analysis['document_tone']['tones']
-for item in items:
-    if(item['tone_name']=="Anger"):
-        emotion[0] = item['score']
-    if(item['tone_name']=="Fear"):
-        emotion[1] = item['score']
-    if(item['tone_name']=="Sadness"):
-        emotion[2] = item['score']
+def analyzer(tweet):
 
-emotions.append(emotion)
-emotions.append([0.5, 0.3, 0.7])
-emotions.append([0.1,0.2,0.3])
-emotions.append([0.1,0.2,0.3])
+    emotion = [0.0, 0.0, 0.0, 0.0, 0.0]
+
+    text = tweet
+
+    tone_analysis = tone_analyzer.tone(
+        {'text': text},
+        'application/json'
+    ).get_result()
+    items = tone_analysis['document_tone']['tones']
+    for item in items:
+        if(item['tone_name'] == "Anger"):
+            emotion[0] = item['score']*(-1)
+        if(item['tone_name'] == "Fear"):
+            emotion[1] = item['score']*(-1)
+        if(item['tone_name'] == "Sadness"):
+            emotion[2] = item['score']*(-1)
+        if(item['tone_name'] == "Confident"):
+            emotion[3] = item['score']
+        if(item['tone_name'] == "Joy"):
+            emotion[4] = item['score']
+
+    emotions.append(emotion)
+
 
 print(emotions)
 
-anger = list(row[0] for row in emotions)
-fear =  list(row[1] for row in emotions)
-sadness = list(row[2] for row in emotions)
 
-names = ['anger', 'fear', 'sadness']
+def graph():
+    anger = list(row[0] for row in emotions)
+    fear = list(row[1] for row in emotions)
+    sadness = list(row[2] for row in emotions)
+    confident = list(row[3] for row in emotions)
+    joy = list(row[4] for row in emotions)
 
-print(anger)
-print(fear)
-print(sadness)
+    names = ['threshold', 'anger', 'fear', 'sadness', 'confident', 'joy']
 
-plt.figure()
+    print(anger)
+    print(fear)
+    print(sadness)
+    print(confident)
+    print(joy)
+
+    plt.figure()
 
 # xanger= list(range(0,len(anger)))
 # xsad= list(range(0,len(sadness)))
@@ -65,31 +77,45 @@ plt.figure()
 # plt.bar(xsad,sadness,color="blue",bottom = anger, align = "center")
 # plt.bar(xfear,fear,color="green",bottom = anger+sadness, align = "center")
 
-X = np.arange(len(emotions))
+    X = np.arange(len(emotions))
 
-A = np.array(anger)
-B = np.array(fear)
-C = np.array(sadness)
+    A = np.array(anger)
+    B = np.array(fear)
+    C = np.array(sadness)
+    D = np.array(confident)
+    E = np.array(joy)
 
-plt.bar(X, A, color = 'red', align='center')
-plt.bar(X, B, color = 'green', bottom = A, align='center')
-plt.bar(X, C, color = 'blue', bottom = A + B, align='center')
+    plt.axhline(y=0, linestyle='--', color='black')
 
-plt.legend(names, loc=2)
-plt.tick_params(
-    axis='x',         
-    which='both',      
-    bottom=False,      
-    top=False,         
-    labelbottom=False)
-plt.xlabel('tweets')
-plt.ylabel('mood')
-plt.title('Mood rating over time')
-# plt.show()
-plt.savefig('foo.png')
+    plt.bar(X, A, color='red', align='center')
+    plt.bar(X, B, color='purple', bottom=A, align='center')
+    plt.bar(X, C, color='blue', bottom=A + B, align='center')
+    plt.bar(X, D, color='green', align='center')
+    plt.bar(X, E, color='yellow', bottom=D, align='center')
+
+    
+
+    plt.legend(names, loc=2, fancybox=True, framealpha=0.5)
+    plt.ylim([-3, 2])
+    plt.tick_params(
+        axis='x',
+        which='both',
+        bottom=False,
+        top=False,
+        labelbottom=False)
+    plt.xlabel('tweets')
+    plt.ylabel('mood')
+    plt.title('Mood rating over time')
+    # plt.show()
+    plt.savefig('foo.png')
+
+#testing
+# analyzer("I am scared of ghost")
+# analyzer("I love here")
+# graph()
+# print(emotions)
 
 # print(json.dumps(tone_analysis, indent=2))
-
 
 
 # # evenly sampled time at 200ms intervals
@@ -97,7 +123,7 @@ plt.savefig('foo.png')
 
 # # red dashes, blue squares and green triangles
 # plt.plot(t, t, 'r--', t, t**2, 'bs', t, t**3, 'g^')
-# 
+#
 
 # Import the libraries
 # import matplotlib.pyplot as plt
@@ -108,7 +134,7 @@ plt.savefig('foo.png')
 #          bins = int(180/5))
 
 # # seaborn histogram
-# sns.distplot(flights['arr_delay'], hist=True, kde=False, 
+# sns.distplot(flights['arr_delay'], hist=True, kde=False,
 #              bins=int(180/5), color = 'blue',
 #              hist_kws={'edgecolor':'black'})
 # # Add labels

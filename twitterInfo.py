@@ -3,11 +3,13 @@ import tweepy
 import json
 import threading 
 import helper
+import random
 
-consumer_key = "Key"
-consumer_secret = "Key"
-access_key = "Key"
-access_secret = "Key"
+consumer_key = "mDDob6487D0P7XPADdmYrVArU"
+consumer_secret = "twnvKzSYYtjx2j3aOfMRDH1qtHBq3ivDh6a2BBHpl35uP5eTgH"
+access_key = "1061740751288262658-kS7qHaYjigF3S1aOw1UNFHKbWu8cLK"
+access_secret = "bRS0Px8x5juWfBmLEn28rMrkZ951ZVyf3Iew8zB2iFanm"
+
 
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
@@ -28,9 +30,14 @@ def handleTweet(userName):
         tweets.append(tweet.full_text)
     print(tweets)
 
+    stressIdeas = []
+    file1 = open("waysToLowerStress.txt", 'r')
+    for i in file1:
+        stressIdeas.append(i)
+
     if(helper.checkMood(tweets)):
         #helper.getGraph(tweets)
-        message = "@" + userName + " We've notice that you've been more negative than usual lately we reccommend "
+        message = "@" + userName + " We've notice that you've been more negative than usual lately we reccommend " + stressIdeas[random.randint(0,15)]
         api.update_with_media("foo.png", status=message)
 
     #else:

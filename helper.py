@@ -39,9 +39,7 @@ def analyzer(tweet):
     ).get_result()
     items = tone_analysis['document_tone']['tones']
     for item in items:
-        i = 0
-        # if(int(item['score'])>0.9):
-        #     i = i+1
+        
         if(item['tone_name'] == "Anger"):
             emotion[0] = item['score']*(-1)
         if(item['tone_name'] == "Fear"):
@@ -53,8 +51,8 @@ def analyzer(tweet):
         if(item['tone_name'] == "Joy"):
             emotion[4] = item['score']
 
-        bad  = False if i >= 10 else True
-        bad_mood = bad
+        # bad  = True if i >= 10 else False
+        # bad_mood = bad
 
     emotions.append(emotion)
 
@@ -125,29 +123,3 @@ def graph():
 # print(emotions)
 
 # print(json.dumps(tone_analysis, indent=2))
-
-
-# # evenly sampled time at 200ms intervals
-# t = np.arange(0., 5., 0.2)
-
-# # red dashes, blue squares and green triangles
-# plt.plot(t, t, 'r--', t, t**2, 'bs', t, t**3, 'g^')
-#
-
-# Import the libraries
-# import matplotlib.pyplot as plt
-# import seaborn as sns
-
-# # matplotlib histogram
-# plt.hist(flights['arr_delay'], color = 'blue', edgecolor = 'black',
-#          bins = int(180/5))
-
-# # seaborn histogram
-# sns.distplot(flights['arr_delay'], hist=True, kde=False,
-#              bins=int(180/5), color = 'blue',
-#              hist_kws={'edgecolor':'black'})
-# # Add labels
-# plt.title('Histogram of Arrival Delays')
-# plt.xlabel('Delay (min)')
-# plt.ylabel('Flights')
-# plt.show()

@@ -5,12 +5,11 @@ import threading
 import helper
 import random
 
-consumer_key = "Key"
-consumer_secret = "Key"
-access_key = "Key"
-access_secret = "Key"
-
-
+#Auth Keys (Don't push with these)
+consumer_key = "mDDob6487D0P7XPADdmYrVArU"
+consumer_secret = "twnvKzSYYtjx2j3aOfMRDH1qtHBq3ivDh6a2BBHpl35uP5eTgH"
+access_key = "1061740751288262658-kS7qHaYjigF3S1aOw1UNFHKbWu8cLK"
+access_secret = "bRS0Px8x5juWfBmLEn28rMrkZ951ZVyf3Iew8zB2iFanm"
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_key, access_secret)
@@ -30,20 +29,25 @@ def handleTweet(userName):
         tweets.append(tweet.full_text)
     print(tweets)
 
+    #Creates a list of ways to destress
     stressIdeas = []
     file1 = open("waysToLowerStress.txt", 'r')
     for i in file1:
         stressIdeas.append(i)
 
+    #Checks the mood of the user and returns the propper response
     if(helper.checkMood(tweets)):
         #helper.getGraph(tweets)
         message = "@" + userName + " We've notice that you've been more negative than usual lately we reccommend " + stressIdeas[random.randint(0,15)]
         api.update_with_media("foo.png", status=message)
 
-    #else:
-        #api.update_status(status = "You seem to be in a fine mood. Have a nice day")
+    else:
+        api.update_status(status = "You seem to be in a fine mood. Have a nice day")
 
 class CustomStreamListener(tweepy.StreamListener):
+    """
+    Catches tweets in the stream and handles does the right thing with them
+    """
     def on_status(self, status):
         print (status.text)
 
@@ -61,5 +65,6 @@ class CustomStreamListener(tweepy.StreamListener):
         print(sys.stderr, 'Timeout...')
         return True # Don't kill the stream
 
+#Create Twitter stream
 sapi = tweepy.streaming.Stream(auth, CustomStreamListener())
 sapi.filter(track=['#TrackMyMood'])

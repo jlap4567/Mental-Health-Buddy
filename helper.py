@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from watson_developer_cloud import ToneAnalyzerV3
 
 emotions = []
-bad_mood = False
+bad_mood = True
 
 def checkMood(tweets):
     """
@@ -13,7 +13,7 @@ def checkMood(tweets):
     will return True
     """
     for tweet in tweets:
-        analyzer(tweet)
+        analyzer(tweet)        
     return bad_mood
 
 
@@ -28,6 +28,10 @@ tone_analyzer = ToneAnalyzerV3(
 
 
 def analyzer(tweet):
+    """
+    This function analyzes the mood of a tweet and returns an array of 5 different tones that
+    the tweet can contain
+    """
 
     emotion = [0.0, 0.0, 0.0, 0.0, 0.0]
 
@@ -62,7 +66,10 @@ def analyzer(tweet):
 print(emotions)
 
 
-def graph():
+def graph(tweets):
+    """
+    This function graphs the tone of the tweets after their mood has been found
+    """
     anger = list(row[0] for row in emotions)
     fear = list(row[1] for row in emotions)
     sadness = list(row[2] for row in emotions)
@@ -86,6 +93,7 @@ def graph():
 # plt.bar(xsad,sadness,color="blue",bottom = anger, align = "center")
 # plt.bar(xfear,fear,color="green",bottom = anger+sadness, align = "center")
 
+    #Create Graph
     X = np.arange(len(emotions))
 
     A = np.array(anger)

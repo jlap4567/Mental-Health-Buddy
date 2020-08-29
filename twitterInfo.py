@@ -31,7 +31,7 @@ def handleTweet(userName):
 
     #Creates a list of ways to destress
     stressIdeas = []
-    file1 = open("waysToLowerStress.txt", 'r')
+    file1 = open("./assets/waysToLowerStress.txt", 'r')
     for i in file1:
         stressIdeas.append(i)
 

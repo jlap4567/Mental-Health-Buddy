@@ -21,7 +21,7 @@ emotions = []
 
 tone_analyzer = ToneAnalyzerV3(
     version='2017-09-21',
-    iam_apikey='UIgXJXk48P1YLymIbkEN1it5pMac0XVnLMh6Bv-PGEsr',
+    iam_apikey='key',
     url='https://gateway-wdc.watsonplatform.net/tone-analyzer/api'
 )
 
@@ -45,11 +45,11 @@ def analyzer(tweet):
     for item in items:
         
         if(item['tone_name'] == "Anger"):
-            emotion[0] = item['score']*(-1)
+            emotion[0] = item['score'] * (-1)
         if(item['tone_name'] == "Fear"):
-            emotion[1] = item['score']*(-1)
+            emotion[1] = item['score'] * (-1)
         if(item['tone_name'] == "Sadness"):
-            emotion[2] = item['score']*(-1)
+            emotion[2] = item['score'] * (-1)
         if(item['tone_name'] == "Confidence"):
             emotion[3] = item['score']
         if(item['tone_name'] == "Joy"):

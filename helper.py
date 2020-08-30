@@ -122,7 +122,7 @@ def graph(tweets):
     plt.ylabel('mood')
     plt.title('Mood rating over time')
     # plt.show()
-    plt.savefig('foo.png')
+    plt.savefig('output.png')
 
 #testing
 # analyzer("I am scared of ghost")
